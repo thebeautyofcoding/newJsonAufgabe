@@ -14,7 +14,7 @@ in /Configuration/ExtensionBuilder/settings.yaml:
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 <div class="d-flex flex-column  justify-content-center">
 <f:section name="content" >
-    
+    <f:format.raw>{json}</f:format.raw>
     <f:render partial="Person/PageLimit" arguments="{limits:data.pageLimit, defaultLimit:data.defaultLimit}"/>
     <div class="d-flex flex-column justify-content-center align-items-center table">
     <h1>Personen</h1>

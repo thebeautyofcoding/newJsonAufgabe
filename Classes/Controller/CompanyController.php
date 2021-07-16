@@ -160,7 +160,7 @@ class CompanyController extends
         if (empty($currentPage)) {
             $currentPage = 1;
         }
-
+        $data=[];
         $currentPage = (int) $currentPage;
 
   
@@ -198,7 +198,7 @@ class CompanyController extends
         $currentPage = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP(
             'currentPage'
         );
-      
+        $data=[];
 
         $data = $this->companyRepository->ajaxSearch(
             $query,

@@ -333,3 +333,23 @@ plugin.tx_felogin_pi1 {
 
   }
 }
+
+
+ajax=PAGE
+
+ajax{
+	typeNum=100
+	10<tt_content.list.20.heiner
+	config{
+		
+        additionalHeaders = Content-Type: application/json
+		disableAllHeaderCode=1
+		xhtml_cleaning=0
+		admPanel=0
+		debug=0
+		no_cache=1
+		contentObjectExceptionHandler=0
+
+
+	}
+}

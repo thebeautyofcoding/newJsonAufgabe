@@ -74,7 +74,7 @@ class PersonController extends
         // $limit = (int) $this->settings['limit'];
         $limit = $this->settings['limitForPersons'];
         $limit = (int) $limit;
-
+        $data=[];
         $data = $this->personRepository->pagination($currentPage, $limit);
         $data['pageLimit'] = [1, 2, 4, 5, 6, 8, 10];
         $data['currentPage'] = $currentPage;
@@ -109,13 +109,14 @@ class PersonController extends
         $currentPage = (int) $currentPage;
 
         $ajaxPageLimit = (int) $ajaxPageLimit;
+        $data=[];
         $data = $this->personRepository->pagination(
             $currentPage,
             $ajaxPageLimit
         );
 
       
-
+        
         $data['pageLimit'] = [1, 2, 4, 6, 8, 10];
         $data['currentPage'] = $currentPage;
         $data['nextPage'] = $currentPage + 1;
@@ -126,7 +127,9 @@ class PersonController extends
         $data['loggedInUser'] = $loggedInUser;
         $data['defaultLimit'] = $this->settings['limitForPersons'];
 
-        $this->view->assign('data', $data);
+        $haLllo="'ahalallala";
+        return json_encode($haLllo);
+        // $this->view->assign('json', );
     }
 
     public function ajaxSearchAction()

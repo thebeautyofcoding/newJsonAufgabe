@@ -146,16 +146,76 @@ $(document).ready(function () {
 
                     $('#currentLimit').val(ajaxPageLimit)
                     $('#currentLimit').text(ajaxPageLimit)
-                    var tableRows = $(response).find('.tr')
-                    $('#trHeader').after(tableRows)
 
-                    $('#paginationContainer').remove()
 
-                    var pagination = $(response).find('#paginationContainer')
-                    $('#table').after(pagination)
 
+                    $.each(response.persons, function (i, person) {
+                
+                      var  template=$('#personTableRow').html()
+                      var html=$.Mustache.render(template, {person})
+                      console.log(html)
+                      $('#trHeader').after(html)
+
+
+                    //     let row = document.createElement('tr')
+                    //     row.className = 'tr'
+
+                    //     let anrede = document.createElement('td')
+                    //     anrede.textContent = person.anrede
+                    //     row.append(anrede)
+
+                    //     let vorname = document.createElement('td')
+                    //     vorname.textContent = person.vorname
+                    //     row.append(vorname)
+                    //     let nachname = document.createElement('td')
+                    //     nachname.textContent = person.nachname
+                    //     row.append(nachname)
+
+                    //     let email = document.createElement('td')
+                    //     email.textContent = person.email
+                    //     row.append(email)
+
+                    //     let telefon = document.createElement('td')
+                    //     telefon.textContent = person.telefon
+                    //     row.append(telefon)
+
+                    //     let handy = document.createElement('td')
+                    //     handy.textContent = person.handy
+                    //     row.append(handy)
+
+                    //     let firma = document.createElement('td')
+                    //     firma.textContent = person.firma
+                    //     row.append(firma)
+
+
+                    //     let editieren = document.createElement('td')
+
+                    //     nachname.textContent = ''
+                    //     row.append(nachname)
+
+                    //     let nachname = document.createElement('td')
+                    //     nachname.textContent = person.nachname
+                    //     row.append(nachname)
+
+
+                        
+
+                    //     $('#trHeader').after(row)
+
+
+
+
+
+
+                       
+
+
+
+
+                    })
                 }
             })
+
         } else {
             var controllerpath = $("#uri_hiddenSearch").val();
             var limit = $("#ajaxPageLimit").val();
@@ -268,18 +328,17 @@ $(document).ready(function () {
     })
 
 
-    
-    $('#myTable').on('change', function(){
-    
-        $(this).each(function(){
-            
+
+    $('#myTable').on('change', function () {
+
+        $(this).each(function () {
+
             $('.personsToDeleteCheckbox:checkbox:checked').length > 0 ? $('#deletePersons').fadeIn() : $('#deletePersons').fadeOut()
-                 
+
         })
     })
 
 })
-
 
 
 

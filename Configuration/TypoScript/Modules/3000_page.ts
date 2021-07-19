@@ -21,19 +21,24 @@ page{
 	  
 		10=EXT:heiner/Resources/Public/Css/default.css
 	}
-
+includeJS{
+	  10=EXT:heiner/Resources/Public/jQuery/js/jquery-3.3.1.slim.min.js
+}
    includeJSFooterlibs{
-       10=EXT:heiner/Resources/Public/jQuery/js/jquery-3.3.1.slim.min.js
+     
        20=EXT:heiner/Resources/Public/Popper/js/popper.min.js
        30=EXT:heiner/Resources/Public/Bootstrap/js/bootstrap.min.js
 	   40 = EXT:heiner/Resources/Public/jQuery/js/jquery.smartmenus.min.js
-		
+	  
+
+	
    }
 
    includeJSFooter{
 		10=EXT:heiner/Resources/Public/jQuery/js/customJSPerson.js
 		20=EXT:heiner/Resources/Public/jQuery/js/customJSCompany.js
 		30=EXT:heiner/Resources/Public/jQuery/js/smartmenus.js
+	
 		
    }
 
@@ -335,21 +340,20 @@ plugin.tx_felogin_pi1 {
 }
 
 
-ajax=PAGE
+ajax = PAGE
+ajax {
+typeNum = 100
+10 < tt_content.list.20.heiner_persons
+config {
+disableAllHeaderCode = 1
+xhtml_cleaning = 0
+admPanel = 0
+debug = 0
+// Disable default header "text/html"
+disableCharsetHeader = 1
+// Additional headers
+additionalHeaders.10.header = Content-Type: application/json; charset=utf-8
+additionalHeaders.10.replace = 1
+}
 
-ajax{
-	typeNum=100
-	10<tt_content.list.20.heiner
-	config{
-		
-        additionalHeaders = Content-Type: application/json
-		disableAllHeaderCode=1
-		xhtml_cleaning=0
-		admPanel=0
-		debug=0
-		no_cache=1
-		contentObjectExceptionHandler=0
-
-
-	}
 }

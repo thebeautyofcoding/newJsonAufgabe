@@ -128,8 +128,8 @@ class PersonController extends
         $data['defaultLimit'] = $this->settings['limitForPersons'];
 
         $haLllo="'ahalallala";
-        return json_encode($haLllo);
-        // $this->view->assign('json', );
+        // return json_encode($haLllo);
+        $this->view->assign('json', $haLllo );
     }
 
     public function ajaxSearchAction()

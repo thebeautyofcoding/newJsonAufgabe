@@ -172,7 +172,17 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
             </div>
-
+            <script id="personTableRow"  type="x-tmpl-mustache">
+                <tr class="tr">
+                    <td>{{person.anrede}}</td>
+                    <td>{{person.vorname}}</td>
+                    <td>{{nachname}}</td>
+                    <td>{{email}}</td>
+                    <td>{{Handy}}</td>
+                    <td>{{Firma}}</td>
+                    <td>{{}}</td>
+                </tr>
+            </script>
     </f:section>
 
 </html>

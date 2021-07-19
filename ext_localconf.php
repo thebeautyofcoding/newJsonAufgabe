@@ -9,12 +9,15 @@ call_user_func(function () {
             'Person' =>
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
+            'AjaxPerson'=>'ajaxList'
+            
         ],
         // non-cacheable actions
         [
             'Person' =>
                 'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
+            'AjaxPerson'=>'ajaxList'
         ]
     );
 
@@ -26,6 +29,7 @@ call_user_func(function () {
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
             'Person' =>
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+                'AjaxPerson'=>'ajaxList'
         ],
         // non-cacheable actions
         [
@@ -33,6 +37,7 @@ call_user_func(function () {
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
             'Person' =>
                 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+                'AjaxPerson'=>'ajaxList'
         ]
     );
 

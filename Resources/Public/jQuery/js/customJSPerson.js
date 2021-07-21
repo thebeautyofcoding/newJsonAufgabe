@@ -138,8 +138,12 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: controllerpath,
+
+
+
                 data: { 'pageNumber': currentPageNumber, 'ajaxPageLimit': ajaxPageLimit },
                 success: function (response) {
+                    console.log(response)
                     $('.tr').each(function () {
                         $(this).remove()
                     })
@@ -148,71 +152,108 @@ $(document).ready(function () {
                     $('#currentLimit').text(ajaxPageLimit)
 
 
+                    var template = `{{#persons}}
+                   <tr>
+           
+                           <td>
+           
+                            <input id="anrede" type="text" disabled="true"value="{{anrede}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input  id="vorname" type="text" disabled="true" value="{{vorname}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input id="nachname" type="text" disabled="true" value="{{nachname}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="email" disabled="true" value="{{email}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="telefon" disabled="true" value="{{telefon}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="handy" disabled="true" value="{{handy}}" class="form-control"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+                            
+                          <a class="firma" href="#">{{firma}}</a>
+           
+                          <div id="selectCompany"></div>
+                                
+                           </td>
+                           <td>
+           
+                           <button class="btn btn-primary editButton" value={{uid}} type="button" >
+                           Updaten
+                           </button>
+                           
+                    
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="checkbox" ">
+           
+                           
+                                
+                           </td>
+                 
+           
+                   </tr>
+           
+           {{/persons}}`
 
-                    $.each(response.persons, function (i, person) {
-                
-                      var  template=$('#personTableRow').html()
-                      var html=$.Mustache.render(template, {person})
-                      console.log(html)
-                      $('#trHeader').after(html)
+                    // persons = {}
+                    // persons.person=[]
 
+                    var personList = []
+                    // var person= new Object()
+                    response.persons.map(function (curr) {
 
-                    //     let row = document.createElement('tr')
-                    //     row.className = 'tr'
-
-                    //     let anrede = document.createElement('td')
-                    //     anrede.textContent = person.anrede
-                    //     row.append(anrede)
-
-                    //     let vorname = document.createElement('td')
-                    //     vorname.textContent = person.vorname
-                    //     row.append(vorname)
-                    //     let nachname = document.createElement('td')
-                    //     nachname.textContent = person.nachname
-                    //     row.append(nachname)
-
-                    //     let email = document.createElement('td')
-                    //     email.textContent = person.email
-                    //     row.append(email)
-
-                    //     let telefon = document.createElement('td')
-                    //     telefon.textContent = person.telefon
-                    //     row.append(telefon)
-
-                    //     let handy = document.createElement('td')
-                    //     handy.textContent = person.handy
-                    //     row.append(handy)
-
-                    //     let firma = document.createElement('td')
-                    //     firma.textContent = person.firma
-                    //     row.append(firma)
-
-
-                    //     let editieren = document.createElement('td')
-
-                    //     nachname.textContent = ''
-                    //     row.append(nachname)
-
-                    //     let nachname = document.createElement('td')
-                    //     nachname.textContent = person.nachname
-                    //     row.append(nachname)
-
-
-                        
-
-                    //     $('#trHeader').after(row)
-
-
-
-
-
-
-                       
-
-
-
+                        personList.push(curr)
 
                     })
+                    // var persons=JSON.stringify(persons)
+                    // persons={persons:persons}
+                    var html = Mustache.render(template, { persons: personList })
+
+
+
+                    $('#trHeader').after(html)
+
+
+
+
+
+
+
+
+
+
                 }
             })
 
@@ -247,6 +288,79 @@ $(document).ready(function () {
         }
     })
 
+
+
+    $(document).on('click', '.editButton', function () {
+        var personToEdit = $(this).next().val();
+        controllerpath = $('.uri_hiddenUpdate').val()
+
+        $(this).toggleClass('letsUpdate btn-success')
+        console.log($(this))
+        if ($(this).hasClass('letsUpdate')) {
+            $(this).text('Bestätige!')
+            $(this).parents('tr').find("td").find(".personProperty").prop('disabled', false)
+
+            $(this).parents().find('.firma').hide()
+            controllerPath = $('.uri_hiddenAllCompanies').val()
+            $.ajax({
+                type: "POST",
+                url: controllerPath,
+
+                success: function (response) {
+
+                    console.log(response)
+
+
+
+                    var selectTemplate =
+                        ` <select name="companies" class="form-control"id="companies">
+                        {{#companies}}
+                        <option value={{uid}}>{{name}}</option>
+                
+                        {{/companies}}
+                    </select>`
+
+console.log(this)
+                    var html = Mustache.render(selectTemplate, { companies: response })
+                    $(this).parents().find('td'). find('.firma').append(html)
+                }
+            })
+        } else {
+            $('.firma').show()
+            $(this).parents('tr').find("td").find(".personProperty").prop('disabled', true)
+            $(this).text('Updaten')
+            $('#companies').hide()
+
+            $.ajax({
+                type: "POST",
+                url: controllerpath,
+                data: {
+                    'tx_heiner_persons': {
+                        anrede: $('#anrede').val(),
+                        vorname: $('#vorname').val(),
+                        nachname: $('#nachname').val(),
+                        email: $('#email').val(),
+                        telefon: $('#telefon').val(),
+                        handy: $('#handy').val(),
+                        firma: $('#companies').val(),
+                        uid: personToEdit
+
+                    }
+                },
+                success: function (response) {
+
+
+                }
+            })
+
+        }
+
+
+
+
+
+
+    })
     $('#ajaxPageLimit').change(function () {
 
         var val = $('#ajaxPageLimit').val();
@@ -339,7 +453,4 @@ $(document).ready(function () {
     })
 
 })
-
-
-
 

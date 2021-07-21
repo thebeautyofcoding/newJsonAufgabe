@@ -81,7 +81,7 @@
 			templateElementIds = $.makeArray(arguments);
 		}
 
-		$.each(templateElementIds, function() {
+		$.each(templateElementIds, function () {
 			var templateElement = document.getElementById(this);
 
 			if (templateElement === null) {
@@ -118,6 +118,7 @@
 	 * templateName doesn't exist an empty String will be returned.
 	 */
 	function render(templateName, templateData) {
+
 		if (!has(templateName)) {
 			if (options.warnOnMissingTemplates) {
 				$.error('No template registered for: ' + templateName);
@@ -139,17 +140,17 @@
 	 */
 	function load(url, onComplete) {
 		return $.ajax({
-				url: url,
-				dataType: options.externalTemplateDataType
-			}).done(function (templates) {
-				$(templates).filter('script').each(function (i, el) {
-					add(el.id, $(el).html());
-				});
-
-				if ($.isFunction(onComplete)) {
-					onComplete();
-				}
+			url: url,
+			dataType: options.externalTemplateDataType
+		}).done(function (templates) {
+			$(templates).filter('script').each(function (i, el) {
+				add(el.id, $(el).html());
 			});
+
+			if ($.isFunction(onComplete)) {
+				onComplete();
+			}
+		});
 	}
 
 	/**
@@ -187,7 +188,7 @@
 	 */
 	$.fn.mustache = function (templateName, templateData, options) {
 		var settings = $.extend({
-			method:	'append'
+			method: 'append'
 		}, options);
 
 		var renderTemplate = function (obj, viewModel) {
@@ -211,4 +212,4 @@
 		});
 	};
 
-}(window.jQuery||window.Zepto, window))
+}(window.jQuery || window.Zepto, window))

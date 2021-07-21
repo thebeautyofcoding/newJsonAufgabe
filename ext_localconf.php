@@ -1,23 +1,21 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+
+defined('TYPO3_MODE') || exit('Access denied.');
 
 call_user_func(function () {
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
         'Heiner.Heiner',
         'Persons',
         [
-            'Person' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
-            'AjaxPerson'=>'ajaxList'
-            
+            'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
         ],
         // non-cacheable actions
         [
-            'Person' =>
-                'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Person' => 'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
-            'AjaxPerson'=>'ajaxList'
+            'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
         ]
     );
 
@@ -25,19 +23,15 @@ call_user_func(function () {
         'Heiner.Heiner',
         'Companies',
         [
-            'Company' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
-            'Person' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
-                'AjaxPerson'=>'ajaxList'
+            'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
+            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+                'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
         ],
         // non-cacheable actions
         [
-            'Company' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
-            'Person' =>
-                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
-                'AjaxPerson'=>'ajaxList'
+            'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
+            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+                'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
         ]
     );
 
@@ -77,8 +71,7 @@ call_user_func(function () {
         'heiner-plugin-persons',
         \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
         [
-            'source' =>
-                'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg',
+            'source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg',
         ]
     );
 
@@ -86,8 +79,7 @@ call_user_func(function () {
         'heiner-plugin-companies',
         \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
         [
-            'source' =>
-                'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg',
+            'source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg',
         ]
     );
 });

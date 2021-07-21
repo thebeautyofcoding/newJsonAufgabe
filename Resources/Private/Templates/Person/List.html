@@ -27,7 +27,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:render partial="Search/Search" />
             <f:flashMessages />
 
-
+            <f:form.hidden name="uri_hiddenAllCompanies" class="uri_hiddenAllCompanies" value="<f:uri.action
+            additionalParams='{type:100}'
+            controller='AjaxPerson' action ='getAllCompanies' />" />
             <f:form id="table" action="deleteMultipleEntries" method="POST" object="{person}" class="mb-3">
                 <table id="myTable" class="tx_heiner table table-striped container">
                     <tr id='trHeader'>
@@ -69,23 +71,33 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:for each="{data.persons}" as="person">
 
 
+
                         <tr class="tr">
-                            <td>{person.anrede}</td>
-                            <td>{person.vorname}</td>
-                            <td>{person.nachname}</td>
-                            <td>{person.email}</td>
-                            <td>{person.telefon}</td>
-                            <td>{person.handy}</td>
+                            <td><f:form.textfield class="form-control personProperty" id="anrede" value="{person.anrede}" disabled="true"></f:form.textfield></td>
+                            <td><f:form.textfield class="form-control personProperty" id="vorname" value="{person.vorname}"disabled="true"></f:form.textfield></td>
+                            <td><f:form.textfield class="form-control personProperty"id="nachname" value="{person.nachname}"disabled="true"></f:form.textfield></td>
+                            <td><f:form.textfield class="form-control personProperty" id="email" value="{person.email}"disabled="true"></f:form.textfield></td>
+                            <td><f:form.textfield class="form-control personProperty"id="telefon" value="{person.telefon}"disabled="true"></f:form.textfield></td>
+                            <td><f:form.textfield class="form-control personProperty" id="handy" value="{person.handy}"disabled="true"></f:form.textfield></td>
 
                             <td>
-                                <f:link.action action="show" arguments="{person : person}">{person.firma.name}
+                                <f:link.action action="show" class="firma" arguments="{person : person}">{person.firma.name}
                                 </f:link.action>
+                                <div id="selectCompany"></div>
                             </td>
                             <f:if condition="{data.loggedInUser.ses_id}">
                                 <f:then>
                                     <td>
-                                        <f:link.action action="edit" arguments="{person : person}"><i
-                                                class="fas fa-edit"></i></f:link.action>
+                                 
+                                        <f:form.button class="btn btn-primary editButton" type="button">
+                                     
+                                        Updaten</f:form.button>
+
+
+                                                    <f:form.hidden name="uri_hiddenPersonUid" class="uri_hiddenPersonUid"
+                                                        value="{person.uid}" />
+                                               
+
                                     </td>
                                     <td>
                                         <f:form.checkbox class="personsToDeleteCheckbox" name="personsToDelete"
@@ -98,7 +110,9 @@ Otherwise your changes will be overwritten the next time you save the extension 
                             </f:if>
                         </tr>
                     </f:for>
-
+                    <f:form.hidden name="uri_hiddenUpdate" class="uri_hiddenUpdate" value="<f:uri.action
+                    additionalParams='{type:100}'
+                    controller='AjaxPerson' action ='ajaxUpdate' />" />
                 </table>
                 <div class="d-flex justify-content-center align-items-center " id="NewAndDeleteButtonContainer">
                     <f:link.action action="new" class="">New Person</f:link.action>
@@ -172,17 +186,49 @@ Otherwise your changes will be overwritten the next time you save the extension 
 
 
             </div>
-            <script id="personTableRow"  type="x-tmpl-mustache">
-                <tr class="tr">
-                    <td>{{person.anrede}}</td>
-                    <td>{{person.vorname}}</td>
-                    <td>{{nachname}}</td>
-                    <td>{{email}}</td>
-                    <td>{{Handy}}</td>
-                    <td>{{Firma}}</td>
-                    <td>{{}}</td>
-                </tr>
-            </script>
+            <script id="templateMustache" type="x-tmpl-mustache">
+
+    {{#persons}}
+
+
+        <tr>
+
+                <td>
+
+                   {{person.anrede}}
+
+                
+                     
+                </td>
+                <td>
+
+                   {{person.vorname}}
+
+                
+                     
+                </td>
+                <td>
+
+                   {{nachname}}
+
+                
+                     
+                </td>
+                <td>
+
+                   {{email}}
+
+                
+                     
+                </td>
+      
+
+        </tr>
+
+{{/persons}}
+    
+</script>
+
     </f:section>
 
 </html>

@@ -78,8 +78,7 @@ class AjaxPersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $data['currentLimit'] = $ajaxPageLimit;
         $data['loggedInUser'] = $loggedInUser;
         $data['defaultLimit'] = $this->settings['limitForPersons'];
-     
-  
+
         $this->view->setVariablesToRender(['data']);
 
         $this->view->assign('data', $data);
@@ -121,5 +120,36 @@ class AjaxPersonController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
         $data['currentLimit'] = $ajaxPageLimit;
         $this->view->setVariablesToRender(['data']);
         $this->view->assign('data', $data);
+    }
+
+    public function ajaxUpdateAction()
+    {
+        $uid= $this->request->getArgument('uid');
+        
+        $personToUpdate=$this->personRepository->findByUid($uid);
+        $personToUpdate->setAnrede($this->request->getArgument('anrede'));
+        $personToUpdate->setVorname($this->request->getArgument('vorname'));
+        $personToUpdate->setNachname($this->request->getArgument('nachname'));
+        $personToUpdate->setEmail($this->request->getArgument('email'));
+        $personToUpdate->setTelefon($this->request->getArgument('telefon'));
+        $personToUpdate->setHandy($this->request->getArgument('handy'));
+
+        $personsFirma= $this->companyRepository->findByUid($this->request->getArgument('firma'));
+        $personToUpdate->setFirma($personsFirma);
+        
+        $this->personRepository->update($personToUpdate);
+        
+        $this->view->setVariablesToRender(['data']);
+        $this->view->assign('data', $data);
+    }
+     
+      
+    
+
+    public function getAllCompaniesAction()
+    {
+        $companies = $this->companyRepository->findAll();
+        $this->view->setVariablesToRender(['companies']);
+        $this->view->assign('companies', $companies);
     }
 }

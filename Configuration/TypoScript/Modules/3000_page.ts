@@ -22,7 +22,8 @@ page{
 		10=EXT:heiner/Resources/Public/Css/default.css
 	}
 includeJS{
-	  10=EXT:heiner/Resources/Public/jQuery/js/jquery-3.3.1.slim.min.js
+		10 = EXT:heiner/Resources/Public/jQuery/js/jquery-3.3.1.slim.min.js
+
 }
    includeJSFooterlibs{
      
@@ -35,7 +36,7 @@ includeJS{
    }
 
    includeJSFooter{
-		10=EXT:heiner/Resources/Public/jQuery/js/customJSPerson.js
+		
 		20=EXT:heiner/Resources/Public/jQuery/js/customJSCompany.js
 		30=EXT:heiner/Resources/Public/jQuery/js/smartmenus.js
 	
@@ -43,7 +44,7 @@ includeJS{
    }
 
    config {
-		baseURL = /
+		baseURL = /typo3
 		doctype = html5
 		
 		#####################################

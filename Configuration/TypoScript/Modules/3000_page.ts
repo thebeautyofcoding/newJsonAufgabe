@@ -29,7 +29,8 @@ includeJS{
      
        20=EXT:heiner/Resources/Public/Popper/js/popper.min.js
        30=EXT:heiner/Resources/Public/Bootstrap/js/bootstrap.min.js
-	   40 = EXT:heiner/Resources/Public/jQuery/js/jquery.smartmenus.min.js
+		40 = EXT:heiner/Resources/Public/jQuery/js/jquery.smartmenus.min.js
+		50= EXT:heiner/Resources/Public/jQuery/js/jquery-color-main/jquery.color.js
 	  
 
 	
@@ -44,6 +45,7 @@ includeJS{
    }
 
    config {
+	  
 		baseURL = /typo3
 		doctype = html5
 		
@@ -51,7 +53,7 @@ includeJS{
 		# DEBUG - START
 		#####################################
 		debug = 1
-		contentObjectExceptionHandler = 0
+		contentObjectExceptionHandler = 1
 		#####################################
 		# DEBUG - END
 		#####################################
@@ -342,15 +344,17 @@ plugin.tx_felogin_pi1 {
 
 
 ajax = PAGE
+
 ajax {
 typeNum = 100
 10 < tt_content.list.20.heiner_persons
 config {
+	contentObjectExceptionHandler = 0
 disableAllHeaderCode = 1
 xhtml_cleaning = 0
 admPanel = 0
 debug = 0
-// Disable default header "text/html"
+Disable default header "text/html"
 disableCharsetHeader = 1
 // Additional headers
 additionalHeaders.10.header = Content-Type: application/json; charset=utf-8

@@ -13,8 +13,11 @@ List.html: keep
 Otherwise your changes will be overwritten the next time you save the extension in the extension builder
 <div class="d-flex flex-column  justify-content-center">
     <f:section name="content">
+        <f:form.hidden name="uri_hiddenUpdatedCompanyName" class="uri_hiddenUpdatedCompanyName" value="" />
 
-
+   <f:form.hidden name="uri_hiddenDelete" class="uri_hiddenDelete" value="<f:uri.action
+                    additionalParams='{type:100}'
+                    controller='AjaxPerson' action ='ajaxDelete' />" />
         <div class="d-flex flex-column justify-content-center align-items-center table">
             <h1 class="mb-3">Personen</h1>
             <div class="d-flex justify-content-start">
@@ -30,7 +33,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
             <f:form.hidden name="uri_hiddenAllCompanies" class="uri_hiddenAllCompanies" value="<f:uri.action
             additionalParams='{type:100}'
             controller='AjaxPerson' action ='getAllCompanies' />" />
-            <f:form id="table" action="deleteMultipleEntries" method="POST" object="{person}" class="mb-3">
+            <div id="table" class="mb-3">
                 <table id="myTable" class="tx_heiner table table-striped container">
                     <tr id='trHeader'>
                         <th scope="col">
@@ -113,16 +116,18 @@ Otherwise your changes will be overwritten the next time you save the extension 
                     <f:form.hidden name="uri_hiddenUpdate" class="uri_hiddenUpdate" value="<f:uri.action
                     additionalParams='{type:100}'
                     controller='AjaxPerson' action ='ajaxUpdate' />" />
+
+                 
                 </table>
                 <div class="d-flex justify-content-center align-items-center " id="NewAndDeleteButtonContainer">
                     <f:link.action action="new" class="">New Person</f:link.action>
                     <button class="btn btn-danger ml-2" id="deletePersons" type="submit">Löschen</button>
                 </div>
-            </f:form>
+            </div>
 
             <div class="d-flex justify-content-center mb-5" id="paginationContainer">
 
-                <nav aria-label="Page navigation example"></nav>
+            
                 <f:if condition="{data.currentPage}==1">
                     <f:then>
                         <ul class="pagination ">

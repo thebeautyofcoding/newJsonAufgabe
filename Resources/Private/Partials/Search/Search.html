@@ -13,7 +13,7 @@
     <f:form.textfield name="searchKeyword" id="searchInput" placeholder="Suchbegriff.." class="form-control searchInput d-flex justify-content-center mt-3" />
     
 
-    <f:form.hidden name="uri_hidden" id="uri_hiddenSearch" value="<f:uri.action controller='Person'  action='ajaxSearch' />" /> 
+    <f:form.hidden name="uri_hidden" id="uri_hiddenSearch" value="<f:uri.action controller='AjaxPerson'  action='ajaxSearch' additionalParams='{type:100}'/>" /> 
 </div>
 </f:form>
 

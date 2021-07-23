@@ -7,15 +7,19 @@ call_user_func(function () {
         'Heiner.Heiner',
         'Persons',
         [
-            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
-            'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
+            'AjaxPerson' =>
+                'ajaxList, ajaxUpdate, getAllCompanies, ajaxSearch, ajaxDelete',
         ],
         // non-cacheable actions
         [
-            'Person' => 'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
+            'Person' =>
+                'list, show, new, create, edit, update, delete,deleteMultipleEntries, ajaxList, ajaxSearch',
             'Company' => 'list, show, new, create, edit, update, delete',
-            'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
+            'AjaxPerson' =>
+                'ajaxList, ajaxUpdate, getAllCompanies, ajaxSearch, ajaxDelete',
         ]
     );
 
@@ -23,15 +27,21 @@ call_user_func(function () {
         'Heiner.Heiner',
         'Companies',
         [
-            'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
-            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
-                'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
+            'Company' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+            'AjaxPerson' =>
+                'ajaxList, ajaxUpdate, getAllCompanies, ajaxSearch,ajaxDelete',
         ],
         // non-cacheable actions
         [
-            'Company' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
-            'Person' => 'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
-                'AjaxPerson' => 'ajaxList, ajaxUpdate, getAllCompanies',
+            'Company' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxSearch, ajaxList',
+            'Person' =>
+                'list, show, new, create, edit, update, delete, deleteMultipleEntries, ajaxList, ajaxSearch',
+            'AjaxPerson' =>
+                'ajaxList, ajaxUpdate, getAllCompanies, ajaxSearch, ajaxDelete',
         ]
     );
 
@@ -71,7 +81,8 @@ call_user_func(function () {
         'heiner-plugin-persons',
         \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
         [
-            'source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg',
+            'source' =>
+                'EXT:heiner/Resources/Public/Icons/user_plugin_persons.svg',
         ]
     );
 
@@ -79,7 +90,8 @@ call_user_func(function () {
         'heiner-plugin-companies',
         \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
         [
-            'source' => 'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg',
+            'source' =>
+                'EXT:heiner/Resources/Public/Icons/user_plugin_companies.svg',
         ]
     );
 });

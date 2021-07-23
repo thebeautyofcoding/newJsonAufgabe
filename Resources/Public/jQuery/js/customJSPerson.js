@@ -74,7 +74,7 @@ $(document).ready(function () {
 
         var query = $(this).val().toLowerCase().trim();
         var personProperty = $('#personProperty').val();
-        var limit = $('#ajaxPageLimit').val();
+        var limit = $('#ajaxPageLimit').val().trim();
         console.log(limit)
         $.ajax({
             url: $('#uri_hiddenSearch').val().trim(), // separate file for search
@@ -88,17 +88,18 @@ $(document).ready(function () {
 
             success: function (response) {
                 $(' .tr').remove()
-                var tableRows = $(response).find('.tr')
 
-                $('#trHeader').after(tableRows)
-                $('#paginationContainer').remove()
+                var tableRowHtml = Mustache.render(tableRowTemplate, response)
+                var paginationHtml = Mustache.render(paginationTemplate, response)
+                $('#trHeader').after(tableRowHtml)
+                $('.pagination').remove()
 
-                var pagination = $(response).find('#paginationContainer')
-                $('#table').after(pagination)
+
+                $('#table').after(paginationHtml)
 
             },
             error: function () {
-                alert("something has gone wrong");
+
             }
         });
     });
@@ -125,7 +126,121 @@ $(document).ready(function () {
     })
 
 
+    var paginationTemplate = `
+                        
+                            <ul class="pagination">
+                            {{#previousPage}}
+                                <li class="page-item">
+                                    <button class="page-link" id="previousButton" type="submit" name="" value="{{.}}">
+                                        Previous
+                                    </button>
+                                </li>
+                                {{/previousPage}}
+                                {{#pages}}
+                                <li class="page-item">
+                                    <button class="page-link personPageButton"  type="submit" name="" value="{{.}}">
+                                       {{.}}
+                                    </button>
+                                </li>
 
+                                {{/pages}}
+                            {{^isLastPage}}
+                                {{#nextPage}}
+                                <li class="page-item">
+                                    <button class="page-link" id="nextButton" type="submit" name="" value="{{.}}">
+                                        Next
+                                    </button>
+                                </li>
+                                {{/nextPage}}
+                            {{/isLastPage}}
+                            </ul>
+                   
+                    `
+
+
+    var tableRowTemplate = `{{#persons}}
+                   <tr class="tr">
+           
+                           <td>
+           
+                            <input id="anrede" type="text" disabled="true"value="{{anrede}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input  id="vorname" type="text" disabled="true" value="{{vorname}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input id="nachname" type="text" disabled="true" value="{{nachname}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="email" disabled="true" value="{{email}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="telefon" disabled="true" value="{{telefon}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+           
+                           <input type="text" id="handy" disabled="true" value="{{handy}}" class="form-control personProperty"></input>
+           
+                           
+                                
+                           </td>
+                           <td>
+                            
+                          <a class="firma" href="#">{{firmaName}}</a>
+           
+                          <div id="selectCompany"></div>
+                                
+                           </td>
+                           <td>
+           
+                           <button class="btn btn-primary editButton" value={{uid}} type="button" >
+                           Updaten
+                           </button>
+                           
+                    <input hidden class="uri_hiddenPersonUid" value="{{uid}}"/>
+                           
+                                
+                           </td>
+                           <td>
+           
+                         
+                            <input class="personsToDeleteCheckbox" type="checkbox" name="personsToDelete" value="{{uid}}">
+                           
+                                
+                           </td>
+                 
+           
+                   </tr>
+           
+           {{/persons}}`
+
+
+    var selectTemplate =
+        ` <select name="companies"  class="form-control" class="companies">
+                        {{#companies}}
+                        <option value={{uid}}>{{name}}</option>
+                
+                        {{/companies}}
+                    </select>`
     $(this).on('click', ':button.personPageButton, :button#nextButton, :button#previousButton', function () {
 
         var currentPageNumber = $(this).val();
@@ -143,7 +258,7 @@ $(document).ready(function () {
 
                 data: { 'pageNumber': currentPageNumber, 'ajaxPageLimit': ajaxPageLimit },
                 success: function (response) {
-                    console.log(response)
+
                     $('.tr').each(function () {
                         $(this).remove()
                     })
@@ -152,84 +267,23 @@ $(document).ready(function () {
                     $('#currentLimit').text(ajaxPageLimit)
 
 
-                    var template = `{{#persons}}
-                   <tr>
-           
-                           <td>
-           
-                            <input id="anrede" type="text" disabled="true"value="{{anrede}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input  id="vorname" type="text" disabled="true" value="{{vorname}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input id="nachname" type="text" disabled="true" value="{{nachname}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input type="text" id="email" disabled="true" value="{{email}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input type="text" id="telefon" disabled="true" value="{{telefon}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input type="text" id="handy" disabled="true" value="{{handy}}" class="form-control"></input>
-           
-                           
-                                
-                           </td>
-                           <td>
-                            
-                          <a class="firma" href="#">{{firma}}</a>
-           
-                          <div id="selectCompany"></div>
-                                
-                           </td>
-                           <td>
-           
-                           <button class="btn btn-primary editButton" value={{uid}} type="button" >
-                           Updaten
-                           </button>
-                           
-                    
-                           
-                                
-                           </td>
-                           <td>
-           
-                           <input type="checkbox" ">
-           
-                           
-                                
-                           </td>
-                 
-           
-                   </tr>
-           
-           {{/persons}}`
+
+
+
+
+                    var pagintationHtml = Mustache.render(paginationTemplate, {persons:response.persons})
+
+
+
+                    $('.pagination').remove()
+                    $('#paginationContainer').append(pagintationHtml)
+
+                    $(`button[value=${response.currentPage}]`).closest('li').addClass('disabled')
+
 
                     // persons = {}
                     // persons.person=[]
-
+                    console.log(response)
                     var personList = []
                     // var person= new Object()
                     response.persons.map(function (curr) {
@@ -237,9 +291,10 @@ $(document).ready(function () {
                         personList.push(curr)
 
                     })
+                    console.log(response)
                     // var persons=JSON.stringify(persons)
                     // persons={persons:persons}
-                    var html = Mustache.render(template, { persons: personList })
+                    var html = Mustache.render(tableRowTemplate, { persons: personList })
 
 
 
@@ -291,67 +346,101 @@ $(document).ready(function () {
 
 
     $(document).on('click', '.editButton', function () {
+        $('.editButton').removeClass('success')
         var personToEdit = $(this).next().val();
         controllerpath = $('.uri_hiddenUpdate').val()
 
         $(this).toggleClass('letsUpdate btn-success')
-        console.log($(this))
+        $(this).addClass('waitingToBeSubmitted')
         if ($(this).hasClass('letsUpdate')) {
+
             $(this).text('Bestätige!')
             $(this).parents('tr').find("td").find(".personProperty").prop('disabled', false)
 
-            $(this).parents().find('.firma').hide()
+            $(this).parents('tr').find('td').find('.firma').hide()
             controllerPath = $('.uri_hiddenAllCompanies').val()
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: controllerPath,
 
                 success: function (response) {
 
-                    console.log(response)
 
 
 
-                    var selectTemplate =
-                        ` <select name="companies" class="form-control"id="companies">
-                        {{#companies}}
-                        <option value={{uid}}>{{name}}</option>
-                
-                        {{/companies}}
-                    </select>`
 
-console.log(this)
+
+
+
                     var html = Mustache.render(selectTemplate, { companies: response })
-                    $(this).parents().find('td'). find('.firma').append(html)
+
+
+                    $('.letsUpdate').parents('tr').find('td').find('#selectCompany').append(html)
+
+
+
+
+
+
+                },
+                error: function (err) {
+
                 }
             })
         } else {
-            $('.firma').show()
-            $(this).parents('tr').find("td").find(".personProperty").prop('disabled', true)
-            $(this).text('Updaten')
-            $('#companies').hide()
+
 
             $.ajax({
                 type: "POST",
                 url: controllerpath,
                 data: {
                     'tx_heiner_persons': {
-                        anrede: $('#anrede').val(),
-                        vorname: $('#vorname').val(),
-                        nachname: $('#nachname').val(),
-                        email: $('#email').val(),
-                        telefon: $('#telefon').val(),
-                        handy: $('#handy').val(),
-                        firma: $('#companies').val(),
+                        anrede: $('.waitingToBeSubmitted').parents('tr').find('td').find('#anrede').val(),
+                        vorname: $('.waitingToBeSubmitted').parents('tr').find('td').find('#vorname').val(),
+                        nachname: $('.waitingToBeSubmitted').parents('tr').find('td').find('#nachname').val(),
+                        email: $('.waitingToBeSubmitted').parents('tr').find('td').find('#email').val(),
+                        telefon: $('.waitingToBeSubmitted').parents('tr').find('td').find('#telefon').val(),
+                        handy: $('.waitingToBeSubmitted').parents('tr').find('td').find('#handy').val(),
+                        firma: $('select[name="companies"]').val(),
                         uid: personToEdit
 
                     }
                 },
                 success: function (response) {
+                    console.log(response)
+                    $('.waitingToBeSubmitted').addClass('success')
+
+                    // $('.success').parents('tr').find("td").find('.firma').show()
+
+                    $('.waitingToBeSubmitted').parents('tr').find('td').find('.uri_hiddenUpdatedCompanyName').val(response.firma)
+
+
+
+                    $('.waitingToBeSubmitted').parents('tr').find('td').find('.firma').fadeIn('slow')
+
+                    $('.editButton').parents('tr').find("td").find(".personProperty").prop('disabled', true)
+                    $('.editButton').text('Updaten')
+                    $('#companies').fadeOut('slow', function () {
+                        if (typeof response[0] !== 'undefined') {
+                            $('.waitingToBeSubmitted').parents('tr').find('td').find('.firma').text(response[0].firma)
+                        }
+
+                    })
+
+
+                    $('.waitingToBeSubmitted').parents('tr').animate({ backgroundColor: '#a1eea4' }, 600)
+                    var color = $('.waitingToBeSubmitted').parents('tr').css("background-color")
+                    setTimeout(function () {
+
+                        $('.waitingToBeSubmitted').parents('tr').animate({ backgroundColor: color }, 600)
+                        $('button').removeClass('waitingToBeSubmitted')
+                        $('select[name="companies"]').remove()
+                    }, 1000);
 
 
                 }
             })
+
 
         }
 
@@ -360,6 +449,9 @@ console.log(this)
 
 
 
+    })
+    $(this).on('change', '#companySelect', function () {
+        $('.letsUpdate').parents('tr').find('td').find('.firma').text($('select[name="companies"] :selected').text())
     })
     $('#ajaxPageLimit').change(function () {
 
@@ -372,6 +464,7 @@ console.log(this)
         const pageNumber = $('.page-item.disabled').find('#pageButton').val()
 
         var controllerpath = $("#uri_hidden").val();
+
         if (personProperty == '' && searchInput == '') {
 
 
@@ -387,8 +480,12 @@ console.log(this)
                     )
                     $('.pagination').remove()
 
-                    var pagination = $(response).find('#paginationContainer')
-                    $('#table').after(pagination)
+
+
+                    paginationHtml = Mustache.render(paginationTemplate, response)
+                    tableRowHtml = Mustache.render(tableRowTemplate, response)
+
+                    $('#paginationContainer').append(paginationHtml)
 
                     $('#currentLimit').val(val)
                     $('#currentLimit').text(val)
@@ -396,8 +493,8 @@ console.log(this)
                     $('#ajaxPageLimit option').show();
                     $('#ajaxPageLimit option:selected').hide();
 
-                    var tableRows = $(response).find('.tr')
-                    $('#trHeader').after(tableRows)
+
+                    $('#trHeader').after(tableRowHtml)
 
                 }
 
@@ -407,8 +504,8 @@ console.log(this)
             var val = $('#ajaxPageLimit').val();
 
             var query = $('#searchInput').val().toLowerCase().trim();
-            var personProperty = $('#personProperty').val();
-            var limit = $('#ajaxPageLimit').val();
+            var personProperty = $('#personProperty').val().trim();
+            var limit = $('#ajaxPageLimit').val().trim();
             console.log(limit)
             $.ajax({
                 url: $('#uri_hiddenSearch').val().trim(), // separate file for search
@@ -434,15 +531,26 @@ console.log(this)
 
                 },
                 error: function () {
-                    alert("something has gone wrong");
+                   
                 }
             });
         }
 
     })
 
+    // $(this).on('click', '.waitingToBeSubmitted', function () {
 
+    //     console.log($('.uri_hiddenUpdatedCompanyName').val())
+    //     $('.waitingToBeSubmitted').parents('tr').find('td').find('.firma').text($('.uri_hiddenUpdatedCompanyName').val())
 
+    //     $('.waitingToBeSubmitted').parents('tr').find('td').find('.firma').show()
+    // })
+    $(this).on('change', '.personsToDeleteCheckbox', function () {
+        $('tr').filter(':has(:checkbox:checked)').each(function () {
+            $(this).addClass('waitingToBeRemoved')
+
+        });
+    })
     $('#myTable').on('change', function () {
 
         $(this).each(function () {
@@ -452,5 +560,43 @@ console.log(this)
         })
     })
 
-})
+    $('#deletePersons').on('click', function () {
 
+        var personsToDelete = []
+        $("input:checkbox:checked").each(function () {
+            personsToDelete.push($(this).val());
+        });
+        $.ajax({
+            url: $('.uri_hiddenDelete').val(), // separate file for search
+            data: {
+                personsToDelete: personsToDelete
+            },
+            method: 'POST',
+
+            success: function (response) {
+
+
+                $('.waitingToBeRemoved').css({
+                    'background-color': '#f60000',
+                    'color': '#fff'
+                });
+                $('.waitingToBeRemoved').fadeOut('slow', function () {
+                    $(this).remove();
+                })
+
+
+                $('#deletePersons').fadeOut('slow')
+
+
+
+
+            }
+
+
+
+        })
+
+
+
+    })
+})

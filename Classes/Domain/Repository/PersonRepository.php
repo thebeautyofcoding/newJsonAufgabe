@@ -1,8 +1,6 @@
 <?php
-namespace Heiner\Heiner\Domain\Repository;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
+namespace Heiner\Heiner\Domain\Repository;
 
 /***
  *
@@ -15,7 +13,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
  *
  ***/
 /**
- * The repository for Persons
+ * The repository for Persons.
  */
 class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
@@ -24,16 +22,17 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
     /**
      * @param \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
      */
-
     public function injectPersonRepository(
-        \Heiner\Heiner\Domain\Repository\PersonRepository $personRepository
+        PersonRepository $personRepository
     ) {
         $this->personRepository = $personRepository;
     }
 
     /**
-     * custom method: Get all Persons for a specific company
+     * custom method: Get all Persons for a specific company.
+     *
      * @param $firmaid
+     *
      * @return \Heiner\Heiner\Domain\Model\Person $persons
      */
     public function findAllPersonsBelongingToCompany(int $firmaId)
@@ -55,7 +54,7 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         for (
             $x = $currentPage - $linksShown;
             $x < $currentPage + $linksShown + 1;
-            $x++
+            ++$x
         ) {
             if ($x > 0 && $x <= $totalPages) {
                 array_push($data['pages'], $x);
@@ -72,13 +71,14 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $data;
     }
+
     /**
-     *custom method: Delete multiple entries at once
-     * @param array $personsToDelete
-     * @var \Heiner\Heiner\Domain\Model\Person $person
+     *custom method: Delete multiple entries at once.
+     *
+     * @var \Heiner\Heiner\Domain\Model\Person
+     *
      * @return void
      */
-
     public function deleteMultipleEntries(array $personsToDelete)
     {
         foreach ($personsToDelete as $person) {
@@ -86,15 +86,17 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
             $this->remove($personToDelete);
         }
     }
+
     /**
-     *custom method: search keyword based on person property via ajax
-     * @param string $ajaxQuery search query to search for
+     *custom method: search keyword based on person property via ajax.
+     *
+     * @param string $ajaxQuery      search query to search for
      * @param string $personProperty property of Heiner\Heiner\Domain\Model\Person to search in
-     * @param string $currentPage  used to calculate  number of page-links to show and offset
-     * @param string $limit used to calculate number of total pages and offset
+     * @param string $currentPage    used to calculate  number of page-links to show and offset
+     * @param string $limit          used to calculate number of total pages and offset
+     *
      * @return array $data
      */
-
     public function ajaxSearch(
         string $ajaxQuery,
         string $personProperty,
@@ -106,7 +108,7 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         $data['pages'] = [];
         $query = $this->createQuery();
         $total = $query
-            ->matching($query->like($personProperty, '%' . $ajaxQuery.'%' ))
+            ->matching($query->like($personProperty, '%'.$ajaxQuery.'%'))
             ->count('uid');
 
         $linksShown = (int) 3;
@@ -115,14 +117,14 @@ class PersonRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
         for (
             $x = $currentPage - $linksShown;
             $x < $currentPage + $linksShown + 1;
-            $x++
+            ++$x
         ) {
             if ($x > 0 && $x <= $totalPages) {
                 array_push($data['pages'], $x);
             }
         }
         $query = $this->createQuery();
-        $query->matching($query->like($personProperty, '%' . $ajaxQuery . '%'));
+        $query->matching($query->like($personProperty, '%'.$ajaxQuery.'%'));
 
         $offset = (int) ($currentPage - 1) * $limit;
         $offset = (int) $offset;
